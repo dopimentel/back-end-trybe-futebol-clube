@@ -6,12 +6,12 @@ export default class TeamModel implements ITeamModel {
   private model = SequelizeTeam;
 
   public async findAll(): Promise<ITeam[]> {
-    const teams = await this.model.findAll();
+    const teams = (await this.model.findAll()).map(({ dataValues }) => ({ ...dataValues }));
     return teams;
   }
 }
 
-// const teamModel = new TeamModel();
-// teamModel.findAll().then((teams) => {
-//   console.log(teams);
-// });
+const teamModel = new TeamModel();
+teamModel.findAll().then((teams) => {
+  console.log(teams);
+});
