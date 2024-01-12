@@ -3,14 +3,14 @@ import { IUser } from '../../Interfaces/users/IUser';
 
 export default {
   up(queryInterface: QueryInterface) {
-    return queryInterface.createTable<Model<IUser>>('teams', {
+    return queryInterface.createTable<Model<IUser>>('users', {
       id: {
         type: DataTypes.INTEGER,
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
       },
-      userName: {
+      username: {
         type: DataTypes.STRING,
         allowNull: false,
       },
@@ -32,6 +32,6 @@ export default {
   },
 
   down(queryInterface: QueryInterface) {
-    return queryInterface.dropTable('teams');
+    return queryInterface.dropTable('users');
   },
 };
