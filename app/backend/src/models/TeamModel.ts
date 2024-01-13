@@ -16,7 +16,7 @@ export default class TeamModel implements ITeamModel {
   }
 }
 
-// const teamModel = new TeamModel();
-// teamModel.findAll().then((teams) => {
-//   console.log(teams);
-// });
+const teamModel = new TeamModel();
+teamModel.findAll().then((teams) => {
+  console.log(teams);
+});

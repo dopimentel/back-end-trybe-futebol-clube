@@ -1,7 +1,9 @@
-import IModel from './IModel';
+import { Model } from 'sequelize';
+import { ID, ICRUDModelReader } from './ICRUDModel';
 
-type NewEntity<T> = Omit<T, 'id'>;
+type NewEntity<T> = Omit<T, ID>;
+type Identifiable = { id: ID };
 
-export default IModel;
+export default class IModel<T extends Identifiable> extends Model<T, NewEntity<T>> {}
 
-export { NewEntity };
+export { NewEntity, ID, Identifiable, ICRUDModelReader };
