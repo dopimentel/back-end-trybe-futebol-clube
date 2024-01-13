@@ -22,7 +22,7 @@ export default class TeamService {
   }
 }
 
-const teamService = new TeamService();
-teamService.getAllTeams().then((teams) => {
-  console.log(teams);
-});
+// const teamService = new TeamService();
+// teamService.getAllTeams().then((teams) => {
+//   console.log(teams);
+// });
