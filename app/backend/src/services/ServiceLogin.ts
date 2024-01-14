@@ -16,7 +16,7 @@ export default class LoginService<T extends Model> {
     const user = await this.model
       .findOne({ where: { email: login.email } as WhereAttributeHashValue<Attributes<T>[string]> });
     if (!user || !bcrypt.compareSync(login.password, user.toJSON().password)) {
-      throw new CustomError('Ivalid email or password', 401);
+      throw new CustomError('Invalid email or password', 401);
     }
     const { email, role } = user.toJSON() as IUser;
     const token = this.jwtService.sign({ email, role });
