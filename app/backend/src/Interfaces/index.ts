@@ -1,10 +1,6 @@
 // eslint-disable-next-line max-classes-per-file
-import { Model } from 'sequelize';
-import { ID, ICRUDModelReader } from './ICRUDModel';
+import { ID, NewEntity, ICRUDModelReader } from './ICRUDModel';
 
-type NewEntity<T> = Omit<T, ID>;
 type Identifiable = { id: ID };
 
-export default class IModel<T extends Identifiable> extends Model<T, NewEntity<T>> {}
-
-export { NewEntity, ID, Identifiable, ICRUDModelReader };
+export { ID, Identifiable, ICRUDModelReader, NewEntity };

@@ -7,7 +7,7 @@ import { NewEntity } from '../../Interfaces';
 import { IUser } from '../../Interfaces/IEntities';
 
 class SequelizeUser extends Model<IUser, NewEntity<IUser>> {
-  declare id: number;
+  public id!: number;
   declare username: string;
   declare role: string;
   declare email: string;

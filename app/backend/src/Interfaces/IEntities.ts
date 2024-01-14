@@ -12,7 +12,7 @@ interface IUser extends Identifiable {
 
 }
 
-export interface IMatch extends Identifiable {
+interface IMatch extends Identifiable {
   homeTeamId: number;
   homeTeamGoals: number;
   awayTeamId: number;
@@ -20,4 +20,4 @@ export interface IMatch extends Identifiable {
   inProgress: boolean;
 }
 
-export { ITeam, IUser };
+export { ITeam, IUser, IMatch };
