@@ -1,5 +1,5 @@
 import { Model } from 'sequelize';
-import SequelizeTeam from '../database/models/SequelizeTeam';
+// import SequelizeTeam from '../database/models/SequelizeTeam';
 import { ServiceResponse } from '../Interfaces/ServiceResponse';
 import ModelReader from '../models/ModelReader';
 import { ID } from '../Interfaces/ICRUDModel';
@@ -21,7 +21,7 @@ export default class ReaderService<T extends Model> {
   }
 }
 
-const readerService = new ReaderService(new ModelReader(SequelizeTeam));
-readerService.getAll().then((teams) => {
-  console.log(teams);
-});
+// const readerService = new ReaderService(new ModelReader(SequelizeTeam));
+// readerService.getAll().then((teams) => {
+//   console.log(teams);
+// });

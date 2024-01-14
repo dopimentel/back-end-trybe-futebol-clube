@@ -1,5 +1,4 @@
 import { Model, ModelCtor } from 'sequelize';
-// import SequelizeTeam from '../database/models/SequelizeTeam';
 import { ICRUDModelReader, ID } from '../Interfaces/ICRUDModel';
 
 export default class ModelReader <T extends Model> implements ICRUDModelReader<T> {

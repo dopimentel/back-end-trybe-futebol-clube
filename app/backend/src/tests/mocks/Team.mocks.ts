@@ -1,3 +1,15 @@
+import { ITeam } from "../../Interfaces/teams/ITeam";
+
+const team: ITeam = {
+  id: 1,
+  teamName: 'Avaí/Kindermann',
+};
+const team2: ITeam = {
+  id: 2,
+  teamName: 'Corinthians',
+};
+
+export { team, team2 };
 export default class MockModel<T> {
   constructor(private entity: T) {}
   

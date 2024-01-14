@@ -18,7 +18,7 @@ describe('Team Test', () => {
 
   describe('GET /teams', () => {
     
-    const team = { id: 1, teamName: 'Avaí/Kindermann' };
+    const team: ITeam = { id: 1, teamName: 'Avaí/Kindermann' };
     const mockModel = new MockModel(team);
 
     it('should return a list of teams', async () => {
@@ -28,7 +28,7 @@ describe('Team Test', () => {
         .get('/teams');
 
       expect(chaiHttpResponse).to.have.status(200);
-      expect(chaiHttpResponse.body).to.be.deep.equal(mockModel.findAll());
+      expect(chaiHttpResponse.body).to.be.deep.equal([team]);
     });
 
     it('should return a team by id', async () => {
@@ -51,7 +51,7 @@ describe('Team Test', () => {
       expect(chaiHttpResponse).to.have.status(404);
       expect(chaiHttpResponse.body).to.be.deep.equal({ message: 'Team with id 1 not found' });
     })
-
+    
 
     afterEach(() => {
       sinon.restore();
