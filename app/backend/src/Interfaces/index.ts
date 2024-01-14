@@ -1,3 +1,4 @@
+// eslint-disable-next-line max-classes-per-file
 import { Model } from 'sequelize';
 import { ID, ICRUDModelReader } from './ICRUDModel';
 

@@ -1,12 +1,12 @@
 import {
-  DataTypes,
+  DataTypes, Model,
 } from 'sequelize';
 import db from '.';
 
-import IModel from '../../Interfaces';
+import { NewEntity } from '../../Interfaces';
 import { ITeam } from '../../Interfaces/teams/ITeam';
 
-class SequelizeTeam extends IModel<ITeam> {
+class SequelizeTeam extends Model<ITeam, NewEntity<ITeam>> {
   declare id: number;
   declare teamName: string;
 }
