@@ -1,4 +1,4 @@
-import { ITeam } from "../../Interfaces/teams/ITeam";
+import { ITeam } from "../../Interfaces/IEntities";
 
 const team: ITeam = {
   id: 1,

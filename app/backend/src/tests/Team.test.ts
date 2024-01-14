@@ -8,7 +8,8 @@ import { app } from '../app';
 import { Response } from 'superagent';
 import SequelizeTeam from '../database/models/SequelizeTeam';
 import MockModel from './mocks/Team.mocks';
-import { ITeam } from '../Interfaces/teams/ITeam';
+import { ITeam } from '../Interfaces/IEntities';
+import { Model } from 'sequelize';
 
 chai.use(chaiHttp);
 
@@ -57,6 +58,25 @@ describe('Team Test', () => {
       sinon.restore();
     });
   });
+
+  describe('should handle errors', () => {
+
+    it('s handle exception when Model throws', async () => {
+      const errorMessage = 'Error';
+      sinon.stub(Model, 'findAll').throws();
+      const chaiHttpResponse: Response = await chai
+        .request(app)
+        .get('/teams/invalidID');
+
+      expect(chaiHttpResponse).to.have.status(500);
+      expect(chaiHttpResponse.body).to.be.deep.equal({ message: errorMessage });
+    });
+    
+    afterEach(() => {
+      sinon.restore();
+    });
+  });
+
 
   describe('', () => {
     afterEach(() => {

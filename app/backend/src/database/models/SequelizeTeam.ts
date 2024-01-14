@@ -4,7 +4,7 @@ import {
 import db from '.';
 
 import { NewEntity } from '../../Interfaces';
-import { ITeam } from '../../Interfaces/teams/ITeam';
+import { ITeam } from '../../Interfaces/IEntities';
 
 class SequelizeTeam extends Model<ITeam, NewEntity<ITeam>> {
   declare id: number;
