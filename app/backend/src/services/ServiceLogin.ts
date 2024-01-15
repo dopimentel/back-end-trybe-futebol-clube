@@ -1,5 +1,5 @@
 import * as bcrypt from 'bcryptjs';
-import { Attributes, Model, ModelCtor, WhereAttributeHashValue } from 'sequelize';
+import { Attributes, Model, ModelCtor, WhereOptions } from 'sequelize';
 // import SequelizeTeam from '../database/models/SequelizeTeam';
 import { ServiceMessage, ServiceResponse } from '../Interfaces/ServiceResponse';
 import JWT from '../utils/JWT';
@@ -14,8 +14,9 @@ export default class LoginService<T extends Model> {
 
   public async login(login: ILogin): Promise<ServiceResponse<ServiceMessage | IToken>> {
     const user = await this.model
-      .findOne({ where: { email: login.email } as WhereAttributeHashValue<Attributes<T>[string]> });
+      .findOne({ where: { email: login.email } as unknown as WhereOptions<Attributes<T>> });
     if (!user || !bcrypt.compareSync(login.password, user.toJSON().password)) {
+    // if (!user || login.password !== user.toJSON().password) {
       throw new CustomError('Invalid email or password', 401);
     }
     const { email, role } = user.toJSON() as IUser;
