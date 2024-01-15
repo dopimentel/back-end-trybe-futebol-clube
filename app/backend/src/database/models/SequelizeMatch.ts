@@ -5,6 +5,7 @@ import db from '.';
 
 import { NewEntity } from '../../Interfaces';
 import { IMatch } from '../../Interfaces/IEntities';
+import SequelizeTeam from './SequelizeTeam';
 
 class SequelizeMatch extends Model<IMatch, NewEntity<IMatch>> {
   public id!: number;
@@ -55,9 +56,19 @@ SequelizeMatch.init({
 
 }, {
   sequelize: db,
-  modelName: 'users',
+  modelName: 'matches',
   timestamps: false,
   underscored: true,
+});
+
+SequelizeMatch.belongsTo(SequelizeTeam, {
+  foreignKey: 'home_team_id',
+  as: 'homeTeam',
+});
+
+SequelizeMatch.belongsTo(SequelizeTeam, {
+  foreignKey: 'away_team_id',
+  as: 'awayTeam',
 });
 
 export default SequelizeMatch;

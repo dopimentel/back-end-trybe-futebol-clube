@@ -5,7 +5,6 @@ import db from '.';
 
 import { NewEntity } from '../../Interfaces';
 import { ITeam } from '../../Interfaces/IEntities';
-import SequelizeMatch from './SequelizeMatch';
 
 class SequelizeTeam extends Model<ITeam, NewEntity<ITeam>> {
   declare id: number;
@@ -33,24 +32,14 @@ SequelizeTeam.init({
   underscored: true,
 });
 
-SequelizeTeam.hasMany(SequelizeMatch, {
-  foreignKey: 'homeTeamId',
-  as: 'homeMatches',
-});
+// SequelizeTeam.hasMany(SequelizeMatch, {
+//   foreignKey: 'homeTeamId',
+//   as: 'homeMatches',
+// });
 
-SequelizeTeam.hasMany(SequelizeMatch, {
-  foreignKey: 'awayTeamId',
-  as: 'awayMatches',
-});
-
-SequelizeMatch.belongsTo(SequelizeTeam, {
-  foreignKey: 'homeTeamId',
-  as: 'homeTeam',
-});
-
-SequelizeMatch.belongsTo(SequelizeTeam, {
-  foreignKey: 'awayTeamId',
-  as: 'awayTeam',
-});
+// SequelizeTeam.hasMany(SequelizeMatch, {
+//   foreignKey: 'awayTeamId',
+//   as: 'awayMatches',
+// });
 
 export default SequelizeTeam;
