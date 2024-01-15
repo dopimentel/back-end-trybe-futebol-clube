@@ -1,4 +1,4 @@
-import { Model, ModelCtor } from 'sequelize';
+import { Attributes, Model, ModelCtor, WhereOptions } from 'sequelize';
 import { ICRUDModelReader, ID } from '../Interfaces/ICRUDModel';
 
 export default class ModelReader <T extends Model> implements ICRUDModelReader<T> {
@@ -15,6 +15,12 @@ export default class ModelReader <T extends Model> implements ICRUDModelReader<T
 
   public async findById(id: ID): Promise<T | null> {
     const data = await this.model.findByPk(id);
+    return data ? { ...data.dataValues } as T : null;
+  }
+
+  public async findByEmail(email: string): Promise<T | null> {
+    const data = await this.model
+      .findOne({ where: { email } as unknown as WhereOptions<Attributes<T>> });
     return data ? { ...data.dataValues } as T : null;
   }
 }
