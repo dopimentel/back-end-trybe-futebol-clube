@@ -17,14 +17,13 @@ class Validations {
     next();
   }
 
-  // static extractToken(bearerToken: string): string {
-  //   return bearerToken.split(' ')[1];
-  // }
+  static extractToken(bearerToken: string): string {
+    return bearerToken.split(' ')[1];
+  }
 
   static async auth(req: Request, res: Response, next: NextFunction):
   Promise<Response | void> {
-    // const token = Validations.extractToken(req.headers.authorization || '');
-    const token = req.headers.authorization;
+    const token = Validations.extractToken(req.headers.authorization || '');
 
     if (!token) {
       return res.status(404).json({ message: 'Token not found' });
@@ -34,17 +33,6 @@ class Validations {
       return res.status(401).json({ message: decoded });
     }
     req.body.user = decoded as { email: string, role: string };
-
-    next();
-  }
-
-  static validateUser(req: Request, res: Response, next: NextFunction): Response | void {
-    const user = req.body;
-    const requiredKeys = ['email', 'password', 'name'];
-    const notFoundKey = requiredKeys.find((key) => !(key in user));
-    if (notFoundKey) {
-      return res.status(400).json({ message: `${notFoundKey} is required` });
-    }
 
     next();
   }
