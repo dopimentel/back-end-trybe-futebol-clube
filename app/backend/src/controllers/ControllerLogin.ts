@@ -14,7 +14,6 @@ export default class LoginController<T extends Model> {
   }
 
   public async role(req: Request, res: Response) {
-    if (!req.body.user) return res.status(401).json({ message: 'Token must be a valid token' });
     const { email } = req.body.user;
     const serviceResponse = await this.serviceLogin.role(email);
     return res.status(mapStatusHTTP(serviceResponse.status)).json(serviceResponse.data);

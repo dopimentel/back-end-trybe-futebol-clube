@@ -27,9 +27,11 @@ class Validations {
     if (!req.headers.authorization) return res.status(401).json({ message: 'Token not found' });
     const token = Validations.extractToken(req.headers.authorization);
     const decoded = await JWT.verify(token);
-    if (decoded !== TOKEN_NOT_VALID) {
-      req.body.user = decoded;
+    if (decoded === TOKEN_NOT_VALID) {
+      return res.status(401).json({ message: TOKEN_NOT_VALID });
     }
+
+    req.body.user = decoded;
 
     next();
   }
