@@ -3,6 +3,24 @@ import SequelizeMatch from '../database/models/SequelizeMatch';
 import ReaderModel from '../models/ModelReader';
 import ReaderService from '../services/ServiceReader';
 import ReaderController from '../controllers/ControllerReader';
+import SequelizeTeam from '../database/models/SequelizeTeam';
+
+const options = {
+  include: [
+    {
+      model: SequelizeTeam,
+      as: 'homeTeam',
+      attributes: ['name', 'id'],
+    },
+    {
+      model: SequelizeTeam,
+      as: 'awayTeam',
+      attributes: ['name', 'id'],
+    },
+  ],
+
+};
+console.log(options);
 
 const matchesReaderModel = new ReaderModel(SequelizeMatch);
 const matchesReaderService = new ReaderService(matchesReaderModel, 'Match');

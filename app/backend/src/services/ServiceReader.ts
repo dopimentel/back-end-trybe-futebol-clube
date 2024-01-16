@@ -1,21 +1,29 @@
-import { Model } from 'sequelize';
+import { Attributes, FindOptions, Model } from 'sequelize';
 // import SequelizeTeam from '../database/models/SequelizeTeam';
 import { ServiceResponse } from '../Interfaces/ServiceResponse';
 import ModelReader from '../models/ModelReader';
 import { ID } from '../Interfaces/ICRUDModel';
 
 export default class ReaderService<T extends Model> {
-  constructor(protected modelReader: ModelReader<T>, protected item: string = 'Item') { }
+  constructor(
+    protected modelReader: ModelReader<T>,
+    protected item: string = 'Item',
+  ) {}
 
-  public async getAll(): Promise<ServiceResponse<T[]>> {
-    const data = await this.modelReader.findAll();
+  public async getAll(
+    options: FindOptions<Attributes<T>> | undefined,
+  ): Promise<ServiceResponse<T[]>> {
+    const data = await this.modelReader.findAll(options);
     return { status: 'SUCCESSFUL', data };
   }
 
   public async getById(id: ID): Promise<ServiceResponse<T>> {
     const data = await this.modelReader.findById(id);
     if (!data) {
-      return { status: 'NOT_FOUND', data: { message: `${this.item} with id ${id} not found` } };
+      return {
+        status: 'NOT_FOUND',
+        data: { message: `${this.item} with id ${id} not found` },
+      };
     }
     return { status: 'SUCCESSFUL', data } as ServiceResponse<T>;
   }

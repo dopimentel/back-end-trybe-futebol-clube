@@ -1,15 +1,17 @@
 import { Request, Response } from 'express';
-import { Model } from 'sequelize';
+import { Attributes, FindOptions, Model } from 'sequelize';
 import mapStatusHTTP from '../utils/mapStatusHTTP';
 import ServiceReader from '../services/ServiceReader';
 
 export default class ReaderController<T extends Model> {
   constructor(
     private serviceReader: ServiceReader<T>,
+    protected options?: FindOptions<Attributes<T>> | undefined,
   ) { }
 
   public async getAll(_req: Request, res: Response) {
-    const serviceResponse = await this.serviceReader.getAll();
+    const serviceResponse = await this.serviceReader
+      .getAll(this.options);
 
     res.status(mapStatusHTTP(serviceResponse.status)).json(serviceResponse.data);
   }

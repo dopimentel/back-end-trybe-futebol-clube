@@ -12,7 +12,7 @@ export default class LoginService<T extends Model> {
   }
 
   public async login(login: ILogin): Promise<ServiceResponse<ServiceMessage | IToken>> {
-    const user = await this.modelReader.findByEmail(login.email) as unknown as IUser;
+    const user = await this.modelReader.findOne(login.email) as unknown as IUser;
     if (!user || !bcrypt.compareSync(login.password, user.password)) {
     // if (!user || login.password !== user.toJSON().password) {
       throw new CustomError('Invalid email or password', 401);
@@ -24,7 +24,7 @@ export default class LoginService<T extends Model> {
   }
 
   public async role(email: string): Promise<ServiceResponse<ServiceMessage | IUser>> {
-    const user = await this.modelReader.findByEmail(email) as unknown as IUser;
+    const user = await this.modelReader.findOne(email) as unknown as IUser;
     if (!user) {
       throw new CustomError('Token must be a valid token', 401);
     }
