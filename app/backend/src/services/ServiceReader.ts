@@ -61,6 +61,22 @@ export default class ReaderService<T extends Model> {
     }
     return { status: 'SUCCESSFUL', data: updated } as ServiceResponse<T>;
   }
+
+  public async createMatch(data: Partial<T>): Promise<ServiceResponse<T>> {
+    try {
+      const match = {
+        ...data,
+        inProgress: true,
+      };
+      const created = await this.modelReader.create(match as unknown as T);
+      return { status: 'CREATED', data: created } as ServiceResponse<T>;
+    } catch (err) {
+      return {
+        status: 'NOT_FOUND',
+        data: { message: 'There is no team with such id!' },
+      };
+    }
+  }
 }
 
 // const readerService = new ReaderService(new ModelReader(SequelizeTeam));

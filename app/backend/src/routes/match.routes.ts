@@ -29,6 +29,12 @@ const router = Router();
 
 router.get('/', (req: Request, res: Response) => matchesReaderController.getAll(req, res));
 router.get('/:id', (req: Request, res: Response) => matchesReaderController.getById(req, res));
+router.post(
+  '/',
+  Validations.auth,
+  Validations.validateMatch,
+  (req: Request, res: Response) => matchesReaderController.create(req, res),
+);
 router.patch(
   '/:id',
   Validations.auth,

@@ -50,6 +50,12 @@ export default class ReaderController<T extends Model> {
 
     res.status(mapStatusHTTP(serviceResponse.status)).json(serviceResponse.data);
   }
+
+  public async create(req: Request, res: Response) {
+    const serviceResponse = await this.serviceReader.createMatch(req.body);
+
+    res.status(mapStatusHTTP(serviceResponse.status)).json(serviceResponse.data);
+  }
 }
 
 // if (req.query.inProgress) {

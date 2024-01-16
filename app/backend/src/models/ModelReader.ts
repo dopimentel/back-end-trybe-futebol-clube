@@ -1,4 +1,5 @@
 import { Attributes, FindOptions, Model, ModelCtor, WhereOptions } from 'sequelize';
+import { MakeNullishOptional } from 'sequelize/types/utils';
 import { ICRUDModelReader, ID } from '../Interfaces/ICRUDModel';
 
 export default class ModelReader <T extends Model> implements ICRUDModelReader<T> {
@@ -33,6 +34,11 @@ export default class ModelReader <T extends Model> implements ICRUDModelReader<T
     if (updated[0] === 0) return null;
     const newData = await this.model.findByPk(id);
     return newData ? { ...newData.dataValues } as T : null;
+  }
+
+  public async create(data: Partial<T>): Promise<T> {
+    const created = await this.model.create(data as unknown as MakeNullishOptional<T>); // MakeNullishOptional<T['_creationAttributes']>
+    return { ...created.dataValues } as T;
   }
 }
 // const teamModel = new ModelReader(SequelizeTeam);
