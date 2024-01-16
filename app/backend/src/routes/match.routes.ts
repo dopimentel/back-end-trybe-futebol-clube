@@ -5,7 +5,7 @@ import ReaderService from '../services/ServiceReader';
 import ReaderController from '../controllers/ControllerReader';
 import SequelizeTeam from '../database/models/SequelizeTeam';
 
-const options = {
+const allMatches = {
   include: [
     {
       model: SequelizeTeam,
@@ -18,12 +18,11 @@ const options = {
       attributes: ['teamName'],
     },
   ],
-
 };
 
 const matchesReaderModel = new ReaderModel(SequelizeMatch);
 const matchesReaderService = new ReaderService(matchesReaderModel, 'Match');
-const matchesReaderController = new ReaderController(matchesReaderService, options);
+const matchesReaderController = new ReaderController(matchesReaderService, allMatches);
 
 const router = Router();
 

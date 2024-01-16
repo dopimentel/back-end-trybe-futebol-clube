@@ -11,7 +11,7 @@ export default class ReaderService<T extends Model> {
   ) {}
 
   public async getAll(
-    options: FindOptions<Attributes<T>> | undefined,
+    options?: FindOptions<Attributes<T>> | undefined,
   ): Promise<ServiceResponse<T[]>> {
     const data = await this.modelReader.findAll(options);
     return { status: 'SUCCESSFUL', data };
