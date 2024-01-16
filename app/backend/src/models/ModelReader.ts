@@ -19,9 +19,9 @@ export default class ModelReader <T extends Model> implements ICRUDModelReader<T
     return data ? { ...data.dataValues } as T : null;
   }
 
-  public async findOne(value: string): Promise<T | null> {
+  public async findByEmail(email: string): Promise<T | null> {
     const data = await this.model
-      .findOne({ where: { value } as unknown as WhereOptions<Attributes<T>> });
+      .findOne({ where: { email } as unknown as WhereOptions<Attributes<T>> });
     return data ? { ...data.dataValues } as T : null;
   }
 }
