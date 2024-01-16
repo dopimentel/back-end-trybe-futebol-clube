@@ -10,21 +10,20 @@ const options = {
     {
       model: SequelizeTeam,
       as: 'homeTeam',
-      attributes: ['name', 'id'],
+      attributes: ['teamName'],
     },
     {
       model: SequelizeTeam,
       as: 'awayTeam',
-      attributes: ['name', 'id'],
+      attributes: ['teamName'],
     },
   ],
 
 };
-console.log(options);
 
 const matchesReaderModel = new ReaderModel(SequelizeMatch);
 const matchesReaderService = new ReaderService(matchesReaderModel, 'Match');
-const matchesReaderController = new ReaderController(matchesReaderService);
+const matchesReaderController = new ReaderController(matchesReaderService, options);
 
 const router = Router();
 
