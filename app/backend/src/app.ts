@@ -1,6 +1,7 @@
 import * as express from 'express';
 import 'express-async-errors';
 
+import * as cors from 'cors';
 import errorMiddleware from './middlewares/errorMiddleware';
 import router from './routes';
 
@@ -9,9 +10,7 @@ class App {
 
   constructor() {
     this.app = express();
-
     this.config();
-
     this.routes();
 
     // Não remover essa rota
@@ -29,7 +28,7 @@ class App {
       res.header('Access-Control-Allow-Headers', '*');
       next();
     };
-
+    this.app.use(cors());
     this.app.use(express.json());
     this.app.use(accessControl);
   }

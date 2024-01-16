@@ -1,6 +1,6 @@
 import { Attributes, FindOptions, Model } from 'sequelize';
 // import SequelizeTeam from '../database/models/SequelizeTeam';
-import { ServiceResponse } from '../Interfaces/ServiceResponse';
+import { ServiceMessage, ServiceResponse } from '../Interfaces/ServiceResponse';
 import ModelReader from '../models/ModelReader';
 import { ID } from '../Interfaces/ICRUDModel';
 
@@ -26,6 +26,40 @@ export default class ReaderService<T extends Model> {
       };
     }
     return { status: 'SUCCESSFUL', data } as ServiceResponse<T>;
+  }
+
+  public async finishMatch(id: ID): Promise<ServiceResponse<ServiceMessage>> {
+    const match = await this.modelReader.findById(id);
+    if (!match) {
+      return {
+        status: 'NOT_FOUND',
+        data: { message: `${this.item} with id ${id} not found` },
+      };
+    }
+    await this.modelReader.update(id, { inProgress: false });
+
+    return { status: 'SUCCESSFUL', data: { message: 'Finished' } };
+  }
+
+  public async update(
+    id: ID,
+    data: Partial<Attributes<T>>,
+  ): Promise<ServiceResponse<T>> {
+    const item = await this.modelReader.findById(id);
+    if (!item) {
+      return {
+        status: 'NOT_FOUND',
+        data: { message: `${this.item} with id ${id} not found` },
+      };
+    }
+    const updated = await this.modelReader.update(id, data);
+    if (!updated) {
+      return {
+        status: 'NOT_FOUND',
+        data: { message: `${this.item} with id ${id} not found` },
+      };
+    }
+    return { status: 'SUCCESSFUL', data: updated } as ServiceResponse<T>;
   }
 }
 

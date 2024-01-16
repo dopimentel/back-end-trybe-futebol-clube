@@ -24,6 +24,16 @@ export default class ModelReader <T extends Model> implements ICRUDModelReader<T
       .findOne({ where: { email } as unknown as WhereOptions<Attributes<T>> });
     return data ? { ...data.dataValues } as T : null;
   }
+
+  public async update(id: ID, data: Partial<Attributes<T>>): Promise<T | null> {
+    const updated = await this.model.update(
+      data as Partial<Attributes<T>>,
+      { where: { id } as unknown as WhereOptions<Attributes<T>> },
+    );
+    if (updated[0] === 0) return null;
+    const newData = await this.model.findByPk(id);
+    return newData ? { ...newData.dataValues } as T : null;
+  }
 }
 // const teamModel = new ModelReader(SequelizeTeam);
 // teamModel.findById(1).then((teams) => {

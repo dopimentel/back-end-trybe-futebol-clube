@@ -34,6 +34,22 @@ export default class ReaderController<T extends Model> {
 
     res.status(mapStatusHTTP(serviceResponse.status)).json(serviceResponse.data);
   }
+
+  public async finishMatch(req: Request, res: Response) {
+    const { id } = req.params;
+
+    const serviceResponse = await this.serviceReader.finishMatch(Number(id));
+
+    res.status(mapStatusHTTP(serviceResponse.status)).json(serviceResponse.data);
+  }
+
+  public async update(req: Request, res: Response) {
+    const { id } = req.params;
+
+    const serviceResponse = await this.serviceReader.update(Number(id), req.body);
+
+    res.status(mapStatusHTTP(serviceResponse.status)).json(serviceResponse.data);
+  }
 }
 
 // if (req.query.inProgress) {
