@@ -24,19 +24,17 @@ export default class LeadboardService<T extends Model>
   }
 
   public async getAllTeamsMatches() {
-    const teams = await super.findAll({
-      include: [
-        {
-          model: SequelizeMatch,
-          as: 'homeMatches',
-        },
-        {
-          model: SequelizeMatch,
-          as: 'awayMatches',
-        },
-      ],
+    const teams = await super.findAll();
+    const promisses = teams.map(async (team) => {
+      const matches = await this.modelReader
+        .findAll({ where: {
+          homeTeamId: team.id,
+          inProgress: false,
+        } } as unknown as FindOptions<Attributes<T>>);
+      return matches;
     });
-    return teams;
+    await Promise.all(promisses);
+    return promisses;
 
     // const teams = await super.findAll();
     // const promisses = teams.map(async (team) => {
