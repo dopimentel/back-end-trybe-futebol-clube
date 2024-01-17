@@ -1,34 +1,19 @@
 import { Request, Router, Response } from 'express';
+
 import SequelizeMatch from '../database/models/SequelizeMatch';
-import ReaderModel from '../models/ModelReader';
-import ServiceLeadboard from '../services/ServiceLeadboard';
+import CRUDModel from '../models/CRUDModel';
 
-// const allMatches = {
-//   include: [
-//     {
-//       model: SequelizeTeam,
-//       as: 'homeTeam',
-//       attributes: ['teamName'],
-//     },
-//     {
-//       model: SequelizeTeam,
-//       as: 'awayTeam',
-//       attributes: ['teamName'],
-//     },
-//   ],
-// };
+import ModelLeaderboard from '../models/ModelLeaderboard';
+import ServiceLeaderboard from '../services/ServiceLeaderboard';
+import ControllerLeaderboard from '../controllers/ControllerLeaderboard';
 
-// const matchesReaderModel = new ReaderModel(SequelizeMatch);
-// const matchesReaderService = new ReaderService(matchesReaderModel, 'Match');
-// const matchesReaderController = new ReaderController(matchesReaderService, allMatches);
-
-const leadboard = new ServiceLeadboard(new ReaderModel(SequelizeMatch));
-// const lead = leadboard.getAllTeamsMatches();
 const router = Router();
 
-router.get('/home', async (req: Request, res: Response) => {
-  const result = await leadboard.getAll();
-  res.status(200).json(result);
-});
+const modelCRUD = new CRUDModel(SequelizeMatch);
+const model = new ModelLeaderboard<SequelizeMatch>(modelCRUD);
+const service = new ServiceLeaderboard(model);
+const controller = new ControllerLeaderboard(service);
+
+router.get('/home', async (req: Request, res: Response) => controller.getLeaderboard(req, res));
 
 export default router;

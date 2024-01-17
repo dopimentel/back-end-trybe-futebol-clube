@@ -1,7 +1,7 @@
 import { Request, Router, Response } from 'express';
 import Validations from '../middlewares/Validations';
 import SequelizeMatch from '../database/models/SequelizeMatch';
-import ReaderModel from '../models/ModelReader';
+import ReaderModel from '../models/CRUDModel';
 import ReaderService from '../services/ServiceReader';
 import ReaderController from '../controllers/ControllerReader';
 import SequelizeTeam from '../database/models/SequelizeTeam';

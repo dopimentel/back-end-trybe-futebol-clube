@@ -26,7 +26,17 @@ export interface IMatch extends Identifiable {
   inProgress: boolean;
 }
 
-export interface Leadboard {
+export interface LeaderboardAccumulator {
+  goalsFavor: number;
+  goalsOwn: number;
+  goalsBalance: number;
+  totalVictories: number;
+  totalPoints: number;
+  totalDraws: number;
+  totalLosses: number;
+}
+
+export interface Leaderboard extends LeaderboardAccumulator {
   name: string;
   totalPoints: number;
   totalGames: number;
@@ -37,14 +47,4 @@ export interface Leadboard {
   goalsOwn: number;
   goalsBalance: number;
   efficiency: number;
-}
-
-export interface LeadboardAccumulator {
-  goalsFavor: number;
-  goalsOwn: number;
-  goalsBalance: number;
-  totalVictories: number;
-  totalPoints: number;
-  totalDraws: number;
-  totalLosses: number;
 }

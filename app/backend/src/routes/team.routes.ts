@@ -1,6 +1,6 @@
 import { Request, Router, Response } from 'express';
 import SequelizeTeam from '../database/models/SequelizeTeam';
-import ReaderModel from '../models/ModelReader';
+import ReaderModel from '../models/CRUDModel';
 import ReaderService from '../services/ServiceReader';
 import ReaderController from '../controllers/ControllerReader';
 

@@ -1,7 +1,7 @@
 import { Attributes, FindOptions, Model } from 'sequelize';
 // import SequelizeTeam from '../database/models/SequelizeTeam';
 import { ServiceMessage, ServiceResponse } from '../Interfaces/ServiceResponse';
-import ModelReader from '../models/ModelReader';
+import ModelReader from '../models/CRUDModel';
 import { ID } from '../Interfaces/ICRUDModel';
 
 export default class ReaderService<T extends Model> {

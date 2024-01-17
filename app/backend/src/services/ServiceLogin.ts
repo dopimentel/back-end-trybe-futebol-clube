@@ -5,7 +5,7 @@ import { ServiceMessage, ServiceResponse } from '../Interfaces/ServiceResponse';
 import JWT from '../utils/JWT';
 import { IToken, ILogin, IUser } from '../Interfaces/IEntities';
 import CustomError from '../utils/CustomError';
-import ModelReader from '../models/ModelReader';
+import ModelReader from '../models/CRUDModel';
 
 export default class LoginService<T extends Model> {
   constructor(protected jwtService = JWT, protected modelReader: ModelReader<T>) {

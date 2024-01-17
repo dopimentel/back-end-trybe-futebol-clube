@@ -1,23 +1,23 @@
-import { Attributes, Model, WhereOptions } from 'sequelize';
-import { IMatch, Leadboard, LeadboardAccumulator } from '../Interfaces/IEntities';
-import SequelizeMatch from '../database/models/SequelizeMatch';
+// import SequelizeMatch from '../database/models/SequelizeMatch';
 import SequelizeTeam from '../database/models/SequelizeTeam';
-import ModelReader from '../models/ModelReader';
+import CRUDModel from './CRUDModel';
+import { IMatch, Leaderboard, LeaderboardAccumulator } from '../Interfaces/IEntities';
+import { ICRUDModel } from '../Interfaces/ICRUDModel';
 
-export default class LeadboardService<T extends Model> extends ModelReader<SequelizeTeam> {
-  constructor(protected modelReader: ModelReader<T>) {
+export default class ModelLeaderboard <T> extends CRUDModel<SequelizeTeam> {
+  constructor(protected modelReader: ICRUDModel<T>) {
     super(SequelizeTeam);
   }
 
-  public async getAll(): Promise<Leadboard[]> {
+  public async getLeaderboard(): Promise<Leaderboard[]> {
     const teams = await super.findAll();
     const leadboards = await Promise.all(teams.map((team) => this.calculateLeadboardForTeam(team)));
-    return LeadboardService.sortLeadboards(leadboards);
+    return ModelLeaderboard.sortLeadboards(leadboards);
   }
 
-  async calculateLeadboardForTeam(team: SequelizeTeam): Promise<Leadboard> {
+  async calculateLeadboardForTeam(team: SequelizeTeam): Promise<Leaderboard> {
     const matches = await this.getMatchesForTeam(team);
-    const accumulator = LeadboardService.calculateAccumulator(matches as unknown as IMatch[]);
+    const accumulator = ModelLeaderboard.calculateAccumulator(matches as unknown as IMatch[]);
 
     return {
       name: team.teamName,
@@ -29,7 +29,7 @@ export default class LeadboardService<T extends Model> extends ModelReader<Seque
       goalsFavor: accumulator.goalsFavor,
       goalsOwn: accumulator.goalsOwn,
       goalsBalance: accumulator.goalsBalance,
-      efficiency: LeadboardService.calculateEfficiency(accumulator.totalPoints, matches.length),
+      efficiency: ModelLeaderboard.calculateEfficiency(accumulator.totalPoints, matches.length),
     };
   }
 
@@ -38,13 +38,13 @@ export default class LeadboardService<T extends Model> extends ModelReader<Seque
       where: {
         homeTeamId: team.id,
         inProgress: false,
-      } as unknown as WhereOptions<Attributes<T>>,
+      },
     });
   }
 
-  static calculateAccumulator(matches: IMatch[]): LeadboardAccumulator {
+  static calculateAccumulator(matches: IMatch[]): LeaderboardAccumulator {
     return matches.reduce((acc, cur) => {
-      const { homeTeamGoals, awayTeamGoals } = cur as unknown as IMatch;
+      const { homeTeamGoals, awayTeamGoals } = cur as IMatch;
       acc.goalsFavor += homeTeamGoals;
       acc.goalsOwn += awayTeamGoals;
       acc.goalsBalance = acc.goalsFavor - acc.goalsOwn;
@@ -53,7 +53,7 @@ export default class LeadboardService<T extends Model> extends ModelReader<Seque
     }, this.getInitialAccumulator());
   }
 
-  static updateAccumulatorBasedOnResult(match: IMatch, acc: LeadboardAccumulator): void {
+  static updateAccumulatorBasedOnResult(match: IMatch, acc: LeaderboardAccumulator): void {
     const { homeTeamGoals, awayTeamGoals } = match as IMatch;
     if (homeTeamGoals > awayTeamGoals) {
       acc.totalVictories += 1;
@@ -70,7 +70,7 @@ export default class LeadboardService<T extends Model> extends ModelReader<Seque
     return parseFloat(((totalPoints / (totalGames * 3)) * 100).toFixed(2));
   }
 
-  static getInitialAccumulator(): LeadboardAccumulator {
+  static getInitialAccumulator(): LeaderboardAccumulator {
     return {
       goalsFavor: 0,
       goalsOwn: 0,
@@ -82,7 +82,7 @@ export default class LeadboardService<T extends Model> extends ModelReader<Seque
     };
   }
 
-  static sortLeadboards(leadboards: Leadboard[]): Leadboard[] {
+  static sortLeadboards(leadboards: Leaderboard[]): Leaderboard[] {
     return leadboards.sort((a, b) => {
       if (a.totalPoints > b.totalPoints) return -1;
       if (a.totalPoints < b.totalPoints) return 1;
@@ -95,9 +95,7 @@ export default class LeadboardService<T extends Model> extends ModelReader<Seque
   }
 }
 
-async function main() {
-  const result = await new LeadboardService(new ModelReader(SequelizeMatch)).getAll();
-  console.log(result);
-}
-
-main();
+// const modelLeaderboard = new ModelLeaderboard<SequelizeMatch>(new CRUDModel(SequelizeMatch));
+// modelLeaderboard.getLeaderboard().then((result) => {
+//   console.log(result);
+// });

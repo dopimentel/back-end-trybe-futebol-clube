@@ -4,7 +4,7 @@ import LoginController from '../controllers/ControllerLogin';
 import LoginService from '../services/ServiceLogin';
 import JWT from '../utils/JWT';
 import Validations from '../middlewares/Validations';
-import ReaderModel from '../models/ModelReader';
+import ReaderModel from '../models/CRUDModel';
 
 const loginModel = new ReaderModel(SequelizeUser);
 const loginService = new LoginService(JWT, loginModel);

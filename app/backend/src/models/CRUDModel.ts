@@ -1,12 +1,20 @@
 import { Attributes, FindOptions, Model, ModelCtor, WhereOptions } from 'sequelize';
 import { MakeNullishOptional } from 'sequelize/types/utils';
-import { ICRUDModelReader, ID } from '../Interfaces/ICRUDModel';
+import { ICRUDModel, ID } from '../Interfaces/ICRUDModel';
 
-export default class ModelReader <T extends Model> implements ICRUDModelReader<T> {
+export default class ModelReader <T extends Model> implements ICRUDModel<T> {
   protected model: ModelCtor<T>;
 
   constructor(model: ModelCtor<T>) {
     this.model = model;
+  }
+
+  delete(id: number): Promise<number> {
+    return new Promise((resolve, reject) => {
+      this.model.destroy({ where: { id } as unknown as WhereOptions<Attributes<T>> })
+        .then((deleted) => resolve(deleted))
+        .catch((err) => reject(err));
+    });
   }
 
   public async findAll(options?: FindOptions<Attributes<T>> | undefined): Promise<T[]> {
