@@ -1,4 +1,3 @@
-/* eslint-disable max-lines-per-function */
 import { Attributes, FindOptions, Model } from 'sequelize';
 import SequelizeMatch from '../database/models/SequelizeMatch';
 import SequelizeTeam from '../database/models/SequelizeTeam';
@@ -23,76 +22,66 @@ export default class LeadboardService<T extends Model>
     super(SequelizeTeam);
   }
 
-  public async getAllTeamsMatches() {
-    const teams = await super.findAll();
-    const promisses = teams.map(async (team) => {
-      const matches = await this.modelReader
-        .findAll({ where: {
-          homeTeamId: team.id,
-          inProgress: false,
-        } } as unknown as FindOptions<Attributes<T>>);
-      return matches;
-    });
-    await Promise.all(promisses);
-    return promisses;
-
-    // const teams = await super.findAll();
-    // const promisses = teams.map(async (team) => {
-    //   const matches = await this.modelReader
-    //     .findAll({ where: { homeTeamId: team.id } } as unknown as FindOptions<Attributes<T>>);
-    //   return matches;
-    // });
-    // const result = await Promise.all(promisses);
-    // return result.flat();
-  }
-
   public async getAll(): Promise<Leadboard[]> {
     const teams = await super.findAll();
-    const promisses = teams.map(async (team) => {
-      const matches = await this.modelReader
-        .findAll({ where: {
-          homeTeamId: team.id,
-          inProgress: false,
-        } } as unknown as FindOptions<Attributes<T>>);
-      const leadboard = {
-        name: team.teamName,
-        totalPoints: 0,
-        totalGames: matches.length,
-        totalVictories: 0,
-        totalDraws: 0,
-        totalLosses: 0,
-        goalsFavor: 0,
-        goalsOwn: 0,
-        goalsBalance: 0,
-        efficiency: 0,
+    const matchesPromises = teams.map((team) => this.getMatchesForTeam(team));
 
-      };
-      matches.reduce((acc, cur) => {
-        const { homeTeamGoals, awayTeamGoals } = cur as unknown as Attributes<T>;
-        acc.goalsFavor += homeTeamGoals;
-        acc.goalsOwn += awayTeamGoals;
-        acc.goalsBalance = acc.goalsFavor - acc.goalsOwn;
-        if (homeTeamGoals > awayTeamGoals) { // home team won
-          acc.totalVictories += 1;
-          acc.totalPoints += 3;
-          acc.efficiency = parseFloat(((acc.totalPoints / (acc.totalGames * 3)) * 100).toFixed(2));
-          return acc;
-        } if (homeTeamGoals === awayTeamGoals) { // draw
-          acc.totalDraws += 1;
-          acc.totalPoints += 1;
-          acc.efficiency = parseFloat(((acc.totalPoints / (acc.totalGames * 3)) * 100).toFixed(2));
-          return acc;
-        }
-        acc.totalLosses += 1;
+    const matchesResults = await Promise.all(matchesPromises);
+    const leaderboards = matchesResults
+      .map((matches, index) => LeadboardService
+        .calculateLeaderboard(teams[index], matches as unknown as SequelizeMatch[]));
+
+    return LeadboardService.sortLeaderboards(leaderboards);
+  }
+
+  private async getMatchesForTeam(team: SequelizeTeam): Promise<T[]> {
+    return this.modelReader.findAll({
+      where: {
+        homeTeamId: team.id,
+        inProgress: false,
+      },
+    } as unknown as FindOptions<Attributes<T>>);
+  }
+
+  static calculateLeaderboard(team: SequelizeTeam, matches: SequelizeMatch[]): Leadboard {
+    const leadboard: Leadboard = {
+      name: team.teamName,
+      totalPoints: 0,
+      totalGames: matches.length,
+      totalVictories: 0,
+      totalDraws: 0,
+      totalLosses: 0,
+      goalsFavor: 0,
+      goalsOwn: 0,
+      goalsBalance: 0,
+      efficiency: 0,
+    };
+
+    matches.reduce((acc, cur) => {
+      const { homeTeamGoals, awayTeamGoals } = cur as unknown as Attributes<T>;
+      acc.goalsFavor += homeTeamGoals;
+      acc.goalsOwn += awayTeamGoals;
+      acc.goalsBalance = acc.goalsFavor - acc.goalsOwn;
+      if (homeTeamGoals > awayTeamGoals) { // home team won
+        acc.totalVictories += 1;
+        acc.totalPoints += 3;
         acc.efficiency = parseFloat(((acc.totalPoints / (acc.totalGames * 3)) * 100).toFixed(2));
         return acc;
-      }, leadboard);
-      return leadboard;
-    });
+      } if (homeTeamGoals === awayTeamGoals) { // draw
+        acc.totalDraws += 1;
+        acc.totalPoints += 1;
+        acc.efficiency = parseFloat(((acc.totalPoints / (acc.totalGames * 3)) * 100).toFixed(2));
+        return acc;
+      }
+      acc.totalLosses += 1;
+      acc.efficiency = parseFloat(((acc.totalPoints / (acc.totalGames * 3)) * 100).toFixed(2));
+      return acc;
+    }, leadboard);
+    return leadboard;
+  }
 
-    const result = await Promise.all(promisses);
-
-    return result.sort((a, b) => {
+  static sortLeaderboards(leaderboards: Leadboard[]): Leadboard[] {
+    return leaderboards.sort((a, b) => {
       if (a.totalPoints > b.totalPoints) return -1;
       if (a.totalPoints < b.totalPoints) return 1;
       if (a.goalsBalance > b.goalsBalance) return -1;
@@ -105,7 +94,7 @@ export default class LeadboardService<T extends Model>
 }
 
 async function main() {
-  const result = await new LeadboardService(new ModelReader(SequelizeMatch)).getAllTeamsMatches();
+  const result = await new LeadboardService(new ModelReader(SequelizeMatch));
   console.log(result);
 }
 main();
