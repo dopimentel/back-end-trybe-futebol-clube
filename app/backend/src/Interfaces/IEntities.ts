@@ -38,3 +38,13 @@ export interface Leadboard {
   goalsBalance: number;
   efficiency: number;
 }
+
+export interface LeadboardAccumulator {
+  goalsFavor: number;
+  goalsOwn: number;
+  goalsBalance: number;
+  totalVictories: number;
+  totalPoints: number;
+  totalDraws: number;
+  totalLosses: number;
+}
