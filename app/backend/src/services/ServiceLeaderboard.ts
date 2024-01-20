@@ -7,8 +7,8 @@ export default class ServiceLeaderboard {
   constructor(protected model: ModelLeaderboard<SequelizeMatch>) {
   }
 
-  public async getLeaderboard(): Promise<ServiceResponse<Leaderboard[]>> {
-    const leaderboard = await this.model.getLeaderboard();
+  public async getLeaderboard(whereKey: string): Promise<ServiceResponse<Leaderboard[]>> {
+    const leaderboard = await this.model.getLeaderboard(whereKey);
     return { status: 'SUCCESSFUL', data: leaderboard };
   }
 }

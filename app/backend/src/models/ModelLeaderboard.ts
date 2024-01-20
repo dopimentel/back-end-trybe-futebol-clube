@@ -8,14 +8,15 @@ export default class ModelLeaderboard <T> extends CRUDModel<SequelizeTeam> {
     super(SequelizeTeam);
   }
 
-  public async getLeaderboard(): Promise<Leaderboard[]> {
+  public async getLeaderboard(whereKey: string): Promise<Leaderboard[]> {
     const teams = await super.findAll();
-    const leadboards = await Promise.all(teams.map((team) => this.calculateLeadboardForTeam(team)));
+    const leadboards = await Promise.all(teams.map((team) => this
+      .calculateLeadboardForTeam(team, whereKey)));
     return ModelLeaderboard.sortLeadboards(leadboards);
   }
 
-  async calculateLeadboardForTeam(team: SequelizeTeam): Promise<Leaderboard> {
-    const matches = await this.getMatchesForTeam(team);
+  async calculateLeadboardForTeam(team: SequelizeTeam, whereKey: string): Promise<Leaderboard> {
+    const matches = await this.getMatchesForTeam(team, whereKey);
     const accumulator = ModelLeaderboard.calculateAccumulator(matches as unknown as IMatch[]);
 
     return {
@@ -32,10 +33,10 @@ export default class ModelLeaderboard <T> extends CRUDModel<SequelizeTeam> {
     };
   }
 
-  async getMatchesForTeam(team: SequelizeTeam): Promise<T[]> {
+  async getMatchesForTeam(team: SequelizeTeam, whereKey: string): Promise<T[]> {
     return this.modelReader.findAll({
       where: {
-        homeTeamId: team.id,
+        [whereKey]: team.id,
         inProgress: false,
       },
     });
