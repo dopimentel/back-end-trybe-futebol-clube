@@ -1,12 +1,12 @@
 import { Request, Response } from 'express';
-import { Attributes, FindOptions, Model, WhereOptions } from 'sequelize';
 import mapStatusHTTP from '../utils/mapStatusHTTP';
-import ServiceReader from '../services/ServiceReader';
+import ServiceReader from '../services/Service';
+import { IOptions } from '../Interfaces/IOptions';
 
-export default class ReaderController<T extends Model> {
+export default class Controller<T> {
   constructor(
-    private serviceReader: ServiceReader<T>,
-    protected options?: FindOptions<Attributes<T>> | undefined,
+    private serviceReader: ServiceReader <T>,
+    protected options?: IOptions<T>,
   ) { }
 
   public async getAll(req: Request, res: Response) {
@@ -14,15 +14,15 @@ export default class ReaderController<T extends Model> {
       const { inProgress } = req.query;
       const filter = {
         ...this.options,
-        where: { inProgress: inProgress === 'true' } as unknown as WhereOptions<Attributes<T>>,
-      };
+        where: { inProgress: inProgress === 'true' },
+      } as unknown as IOptions<T>;
       const serviceResponse = await this.serviceReader
         .getAll(filter);
 
       return res.status(mapStatusHTTP(serviceResponse.status)).json(serviceResponse.data);
     }
     const serviceResponse = await this.serviceReader
-      .getAll(this.options);
+      .getAll(this.options as IOptions<T>);
 
     res.status(mapStatusHTTP(serviceResponse.status)).json(serviceResponse.data);
   }

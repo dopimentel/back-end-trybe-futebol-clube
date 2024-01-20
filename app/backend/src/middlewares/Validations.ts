@@ -1,5 +1,10 @@
 import { NextFunction, Request, Response } from 'express';
 import JWT from '../utils/JWT';
+import { Payload } from '../Interfaces/IEntities';
+
+export interface IAuthRequest extends Request {
+  user?: Payload;
+}
 
 const TOKEN_NOT_VALID = 'Token must be a valid token';
 class Validations {
@@ -22,16 +27,15 @@ class Validations {
     return bearerToken.split(' ')[1];
   }
 
-  static async auth(req: Request, res: Response, next: NextFunction):
+  static async auth(req: IAuthRequest, res: Response, next: NextFunction):
   Promise<Response | void> {
     if (!req.headers.authorization) return res.status(401).json({ message: 'Token not found' });
     const token = Validations.extractToken(req.headers.authorization);
-    const decoded = await JWT.verify(token);
+    const decoded = JWT.verify(token) as Payload | string;
     if (decoded === TOKEN_NOT_VALID) {
       return res.status(401).json({ message: TOKEN_NOT_VALID });
     }
-
-    req.body.user = decoded;
+    req.user = decoded as Payload;
 
     next();
   }

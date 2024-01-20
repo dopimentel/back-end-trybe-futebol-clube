@@ -1,9 +1,9 @@
 import { Request, Router, Response } from 'express';
 import Validations from '../middlewares/Validations';
 import SequelizeMatch from '../database/models/SequelizeMatch';
-import ReaderModel from '../models/CRUDModel';
-import ReaderService from '../services/ServiceReader';
-import ReaderController from '../controllers/ControllerReader';
+import CRUDModel from '../models/CRUDModel';
+import ReaderService from '../services/Service';
+import Controller from '../controllers/Controller';
 import SequelizeTeam from '../database/models/SequelizeTeam';
 
 const allMatches = {
@@ -21,9 +21,9 @@ const allMatches = {
   ],
 };
 
-const matchesReaderModel = new ReaderModel(SequelizeMatch);
+const matchesReaderModel = new CRUDModel(SequelizeMatch);
 const matchesReaderService = new ReaderService(matchesReaderModel, 'Match');
-const matchesReaderController = new ReaderController(matchesReaderService, allMatches);
+const matchesReaderController = new Controller(matchesReaderService, allMatches);
 
 const router = Router();
 

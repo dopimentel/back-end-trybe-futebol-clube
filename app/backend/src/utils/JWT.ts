@@ -1,9 +1,6 @@
 import { Secret, sign, SignOptions, verify } from 'jsonwebtoken';
+import { Payload } from '../Interfaces/IEntities';
 
-type Payload = {
-  email: string,
-  role: string,
-};
 export default class JWT {
   private static secret: Secret = process.env.JWT_SECRET || '';
 

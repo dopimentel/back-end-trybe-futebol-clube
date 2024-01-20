@@ -4,12 +4,10 @@ import * as chai from 'chai';
 import chaiHttp = require('chai-http');
 
 import { app } from '../app';
-
-import { Response } from 'superagent';
-import SequelizeUser from '../database/models/SequelizeUser';
+import SequelizeTeam from '../database/models/SequelizeTeam';
 import MockModel from './mocks/Team.mocks';
-import { IUser } from '../Interfaces/IEntities';
 import { Model } from 'sequelize';
+
 
 chai.use(chaiHttp);
 
@@ -17,7 +15,7 @@ const { expect } = chai;
 
 describe('User Test', () => {
   describe('', () => {
-    const user: IUser = {
+    const user = {
       id: 1,
       username: 'Admin',
       role: 'admin',

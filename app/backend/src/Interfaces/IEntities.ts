@@ -3,6 +3,10 @@ import { Identifiable } from './index';
 export interface IToken {
   token: string;
 }
+export interface Payload {
+  email: string,
+  role: string,
+}
 
 export interface ITeam extends Identifiable {
   teamName: string;

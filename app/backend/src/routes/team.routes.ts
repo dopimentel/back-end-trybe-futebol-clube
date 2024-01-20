@@ -1,16 +1,16 @@
 import { Request, Router, Response } from 'express';
 import SequelizeTeam from '../database/models/SequelizeTeam';
-import ReaderModel from '../models/CRUDModel';
-import ReaderService from '../services/ServiceReader';
-import ReaderController from '../controllers/ControllerReader';
+import CRUDModel from '../models/CRUDModel';
+import Service from '../services/Service';
+import Controller from '../controllers/Controller';
 
-const teamsReaderModel = new ReaderModel(SequelizeTeam);
-const teamsReaderService = new ReaderService(teamsReaderModel, 'Team');
-const teamsReaderController = new ReaderController(teamsReaderService);
+const model = new CRUDModel(SequelizeTeam);
+const service = new Service(model, 'Team');
+const controller = new Controller(service);
 
 const router = Router();
 
-router.get('/', (req: Request, res: Response) => teamsReaderController.getAll(req, res));
-router.get('/:id', (req: Request, res: Response) => teamsReaderController.getById(req, res));
+router.get('/', (req: Request, res: Response) => controller.getAll(req, res));
+router.get('/:id', (req: Request, res: Response) => controller.getById(req, res));
 
 export default router;

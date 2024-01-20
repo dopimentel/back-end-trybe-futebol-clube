@@ -8,6 +8,7 @@ export interface ICRUDModelCreator<T> {
 export interface ICRUDModelReader<T> {
   findAll(options: unknown): Promise<T[]>,
   findById(id: ID): Promise<T | null>,
+  findByEmail(email: string): Promise<T | null>,
 }
 
 export interface ICRUDModelUpdater<T> {

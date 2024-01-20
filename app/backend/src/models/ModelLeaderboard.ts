@@ -1,4 +1,3 @@
-// import SequelizeMatch from '../database/models/SequelizeMatch';
 import SequelizeTeam from '../database/models/SequelizeTeam';
 import CRUDModel from './CRUDModel';
 import { IMatch, Leaderboard, LeaderboardAccumulator } from '../Interfaces/IEntities';
@@ -94,8 +93,3 @@ export default class ModelLeaderboard <T> extends CRUDModel<SequelizeTeam> {
     });
   }
 }
-
-// const modelLeaderboard = new ModelLeaderboard<SequelizeMatch>(new CRUDModel(SequelizeMatch));
-// modelLeaderboard.getLeaderboard().then((result) => {
-//   console.log(result);
-// });

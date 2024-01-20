@@ -4,12 +4,10 @@ import * as chai from 'chai';
 import chaiHttp = require('chai-http');
 
 import { app } from '../app';
-
-import { Response } from 'superagent';
 import SequelizeTeam from '../database/models/SequelizeTeam';
 import MockModel from './mocks/Team.mocks';
-import { ITeam } from '../Interfaces/IEntities';
 import { Model } from 'sequelize';
+
 
 chai.use(chaiHttp);
 
@@ -19,12 +17,12 @@ describe('Team Test', () => {
 
   describe('GET /teams', () => {
     
-    const team: ITeam = { id: 1, teamName: 'Avaí/Kindermann' };
+    const team = { id: 1, teamName: 'Avaí/Kindermann' };
     const mockModel = new MockModel(team);
 
     it('should return a list of teams', async () => {
       sinon.stub(SequelizeTeam, 'findAll').resolves([SequelizeTeam.build(team)]);
-      const chaiHttpResponse: Response = await chai
+      const chaiHttpResponse = await chai
         .request(app)
         .get('/teams');
 
@@ -34,7 +32,7 @@ describe('Team Test', () => {
 
     it('should return a team by id', async () => {
       sinon.stub(SequelizeTeam, 'findByPk').resolves(SequelizeTeam.build(mockModel.findById(1)));
-      const chaiHttpResponse: Response = await chai
+      const chaiHttpResponse = await chai
         .request(app)
         .get('/teams/1');
 
@@ -45,7 +43,7 @@ describe('Team Test', () => {
 
     it('should return 404 when team is not found', async () => {
       sinon.stub(SequelizeTeam, 'findByPk').resolves(null);
-      const chaiHttpResponse: Response = await chai
+      const chaiHttpResponse = await chai
         .request(app)
         .get('/teams/1');
 
@@ -64,7 +62,7 @@ describe('Team Test', () => {
     it('s handle exception when Model throws', async () => {
       const errorMessage = 'Error';
       sinon.stub(Model, 'findAll').throws();
-      const chaiHttpResponse: Response = await chai
+      const chaiHttpResponse = await chai
         .request(app)
         .get('/teams/invalidID');
 

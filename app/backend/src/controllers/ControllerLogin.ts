@@ -1,11 +1,12 @@
 import { Request, Response } from 'express';
-import { Model } from 'sequelize';
+import { Payload } from '../Interfaces/IEntities';
 import mapStatusHTTP from '../utils/mapStatusHTTP';
 import ServiceLogin from '../services/ServiceLogin';
+import { IAuthRequest } from '../middlewares/Validations';
 
-export default class LoginController<T extends Model> {
+export default class ControllerLogin {
   constructor(
-    private serviceLogin: ServiceLogin<T>,
+    private serviceLogin = new ServiceLogin(),
   ) { }
 
   public async login(req: Request, res: Response) {
@@ -13,8 +14,8 @@ export default class LoginController<T extends Model> {
     res.status(mapStatusHTTP(serviceResponse.status)).json(serviceResponse.data);
   }
 
-  public async role(req: Request, res: Response) {
-    const { email } = req.body.user;
+  public async role(req: IAuthRequest, res: Response) {
+    const { email } = req.user as Payload;
     const serviceResponse = await this.serviceLogin.role(email);
     return res.status(mapStatusHTTP(serviceResponse.status)).json(serviceResponse.data);
   }

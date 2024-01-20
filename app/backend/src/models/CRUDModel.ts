@@ -40,8 +40,7 @@ export default class ModelReader <T extends Model> implements ICRUDModel<T> {
       { where: { id } as unknown as WhereOptions<Attributes<T>> },
     );
     if (updated[0] === 0) return null;
-    const newData = await this.model.findByPk(id);
-    return newData ? { ...newData.dataValues } as T : null;
+    return this.findById(id);
   }
 
   public async create(data: Partial<T>): Promise<T> {
@@ -49,7 +48,3 @@ export default class ModelReader <T extends Model> implements ICRUDModel<T> {
     return { ...created.dataValues } as T;
   }
 }
-// const teamModel = new ModelReader(SequelizeTeam);
-// teamModel.findById(1).then((teams) => {
-//   console.log(teams);
-// });
