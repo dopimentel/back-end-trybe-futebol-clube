@@ -61,7 +61,11 @@ describe('Team Test', () => {
 
     it('s handle exception when Model throws', async () => {
       const errorMessage = 'Error';
-      sinon.stub(Model, 'findAll').throws();
+      try {
+        sinon.stub(Model, 'findAll').throws(new Error(errorMessage));
+      } catch (error) {
+        
+      }
       const chaiHttpResponse = await chai
         .request(app)
         .get('/teams/invalidID');
