@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
 import mapStatusHTTP from '../utils/mapStatusHTTP';
-import ServiceReader from '../services/Service';
+import Service from '../services/Service';
 import { IOptions } from '../Interfaces/IOptions';
 
 export default class Controller<T> {
   constructor(
-    private serviceReader: ServiceReader <T>,
+    private serviceReader: Service <T>,
     protected options?: IOptions<T>,
   ) { }
 
@@ -57,16 +57,3 @@ export default class Controller<T> {
     res.status(mapStatusHTTP(serviceResponse.status)).json(serviceResponse.data);
   }
 }
-
-// if (req.query.inProgress) {
-//       console.log(req.query.inProgress);
-//       console.log(req.query.inProgress === 'true');
-//       const { inProgress } = req.query;
-//       this.options = {
-//         where: { inProgress: inProgress === 'true' } as unknown as WhereOptions<Attributes<T>>,
-//       };
-//   const serviceResponse = await this.serviceReader
-//     .getAll(this.options);
-
-//   return res.status(mapStatusHTTP(serviceResponse.status)).json(serviceResponse.data);
-// }
