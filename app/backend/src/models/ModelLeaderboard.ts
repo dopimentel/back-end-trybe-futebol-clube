@@ -1,3 +1,4 @@
+import { Op } from 'sequelize';
 import SequelizeTeam from '../database/models/SequelizeTeam';
 import CRUDModel from './CRUDModel';
 import { IMatch, Leaderboard, LeaderboardAccumulator } from '../Interfaces/IEntities';
@@ -8,16 +9,62 @@ export default class ModelLeaderboard <T> extends CRUDModel<SequelizeTeam> {
     super(SequelizeTeam);
   }
 
-  public async getLeaderboard(whereKey: string): Promise<Leaderboard[]> {
+  public async getGlobalLeaderboard(): Promise<Leaderboard[]> {
+    const home = await this.getLeaderboard('homeTeamId');
+    const away = await this.getLeaderboard('awayTeamId');
+    return ModelLeaderboard.mergeLeaderboards(home, away);
+  }
+
+  static mergeLeaderboards(home: Leaderboard[], away: Leaderboard[]): Leaderboard[] {
+    const leaderboardMap = new Map<string, Leaderboard>(
+      home.map((leaderboard) => [leaderboard.name, leaderboard]),
+    );
+
+    return away.map((leaderboard) => {
+      const existingLeaderboard = leaderboardMap.get(leaderboard.name);
+
+      if (existingLeaderboard) {
+        return {
+          name: leaderboard.name,
+          ...ModelLeaderboard.combineProperties(existingLeaderboard, leaderboard),
+          efficiency: ModelLeaderboard.calculateEfficiency(
+            existingLeaderboard.totalPoints + leaderboard.totalPoints,
+            existingLeaderboard.totalGames + leaderboard.totalGames,
+          ),
+        };
+      }
+
+      return leaderboard;
+    }) as Leaderboard[];
+  }
+
+  private static combineProperties(
+    existingLeaderboard: Leaderboard,
+    leaderboard: Leaderboard,
+  ): Partial<Leaderboard> {
+    return {
+      totalPoints: existingLeaderboard.totalPoints + leaderboard.totalPoints,
+      totalGames: existingLeaderboard.totalGames + leaderboard.totalGames,
+      totalVictories: existingLeaderboard.totalVictories + leaderboard.totalVictories,
+      totalDraws: existingLeaderboard.totalDraws + leaderboard.totalDraws,
+      totalLosses: existingLeaderboard.totalLosses + leaderboard.totalLosses,
+      goalsFavor: existingLeaderboard.goalsFavor + leaderboard.goalsFavor,
+      goalsOwn: existingLeaderboard.goalsOwn + leaderboard.goalsOwn,
+      goalsBalance: existingLeaderboard.goalsBalance + leaderboard.goalsBalance,
+    };
+  }
+
+  public async getLeaderboard(whereKey?: string): Promise<Leaderboard[]> {
     const teams = await super.findAll();
     const leadboards = await Promise.all(teams.map((team) => this
       .calculateLeadboardForTeam(team, whereKey)));
-    return ModelLeaderboard.sortLeadboards(leadboards);
+    return leadboards;
   }
 
-  async calculateLeadboardForTeam(team: SequelizeTeam, whereKey: string): Promise<Leaderboard> {
+  async calculateLeadboardForTeam(team: SequelizeTeam, whereKey?: string): Promise<Leaderboard> {
     const matches = await this.getMatchesForTeam(team, whereKey);
-    const accumulator = ModelLeaderboard.calculateAccumulator(matches as unknown as IMatch[]);
+    const accumulator = ModelLeaderboard
+      .calculateAccumulator(matches as unknown as IMatch[], whereKey as string);
 
     return {
       name: team.teamName,
@@ -33,35 +80,54 @@ export default class ModelLeaderboard <T> extends CRUDModel<SequelizeTeam> {
     };
   }
 
-  async getMatchesForTeam(team: SequelizeTeam, whereKey: string): Promise<T[]> {
+  async getMatchesForTeam(team: SequelizeTeam, whereKey?: string): Promise<T[]> {
+    if (!whereKey) {
+      return this.modelReader.findAll(
+        { where: { inProgress: false,
+          [Op.or]: [
+            { homeTeamId: team.id },
+            { awayTeamId: team.id }],
+        } },
+      );
+    }
     return this.modelReader.findAll({
       where: {
-        [whereKey]: team.id,
+        [whereKey as string]: team.id,
         inProgress: false,
       },
     });
   }
 
-  static calculateAccumulator(matches: IMatch[]): LeaderboardAccumulator {
+  static calculateAccumulator(matches: IMatch[], whereKey: string): LeaderboardAccumulator {
     return matches.reduce((acc, cur) => {
       const { homeTeamGoals, awayTeamGoals } = cur as IMatch;
-      acc.goalsFavor += homeTeamGoals;
-      acc.goalsOwn += awayTeamGoals;
+      const isHomeTeam = whereKey === 'homeTeamId';
+
+      acc.goalsFavor += isHomeTeam ? homeTeamGoals : awayTeamGoals;
+      acc.goalsOwn += isHomeTeam ? awayTeamGoals : homeTeamGoals;
       acc.goalsBalance = acc.goalsFavor - acc.goalsOwn;
-      this.updateAccumulatorBasedOnResult(cur, acc);
+      this.updateAccumulatorBasedOnResult(cur, acc, whereKey);
       return acc;
     }, this.getInitialAccumulator());
   }
 
-  static updateAccumulatorBasedOnResult(match: IMatch, acc: LeaderboardAccumulator): void {
+  static updateAccumulatorBasedOnResult(
+    match: IMatch,
+    acc: LeaderboardAccumulator,
+    whereKey: string,
+  ): void {
     const { homeTeamGoals, awayTeamGoals } = match as IMatch;
-    if (homeTeamGoals > awayTeamGoals) {
+    const isHomeTeam = whereKey === 'homeTeamId';
+
+    if ((isHomeTeam && homeTeamGoals > awayTeamGoals)
+        || (!isHomeTeam && homeTeamGoals < awayTeamGoals)) {
       acc.totalVictories += 1;
       acc.totalPoints += 3;
     } else if (homeTeamGoals === awayTeamGoals) {
       acc.totalDraws += 1;
       acc.totalPoints += 1;
-    } else {
+    } else if ((isHomeTeam && homeTeamGoals < awayTeamGoals)
+               || (!isHomeTeam && homeTeamGoals > awayTeamGoals)) {
       acc.totalLosses += 1;
     }
   }
@@ -80,17 +146,5 @@ export default class ModelLeaderboard <T> extends CRUDModel<SequelizeTeam> {
       totalDraws: 0,
       totalLosses: 0,
     };
-  }
-
-  static sortLeadboards(leadboards: Leaderboard[]): Leaderboard[] {
-    return leadboards.sort((a, b) => {
-      if (a.totalPoints > b.totalPoints) return -1;
-      if (a.totalPoints < b.totalPoints) return 1;
-      if (a.goalsBalance > b.goalsBalance) return -1;
-      if (a.goalsBalance < b.goalsBalance) return 1;
-      if (a.goalsFavor > b.goalsFavor) return -1;
-      if (a.goalsFavor < b.goalsFavor) return 1;
-      return 0;
-    });
   }
 }
