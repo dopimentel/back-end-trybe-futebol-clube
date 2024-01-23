@@ -2,7 +2,7 @@
 
 ## 💻 What is it about?
 
-TFC is an website about football matches and raking. If you are logged in, it is possible to register new games, as long as you are an admin user (authentication and authorization).
+TFC is an website about football matches and ranking. If you are logged in, it is possible to edit and register new games, as long as you are an admin user (authentication and authorization).
 
 #### Table of Contents
 
