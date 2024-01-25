@@ -47,8 +47,7 @@ This project is dockerized and uses data modeling through Sequelize. The API is 
 
 ## 🚀 Built With
 
-> [![Node.js][Node.js]][Node.js-url][![sequelize][sequelize]][sequelize-url][![MySQL][MySQL]][MySQL-url][![Typescript][Typescript]][Typescript-url][![Docker][Docker]][Docker-url]
-
+> [![Node.js][Node.js]][Node.js-url]![Express][Express][![sequelize][sequelize]][sequelize-url][![MySQL][MySQL]][MySQL-url][![Typescript][Typescript]][Typescript-url]![JWT][JWT][![Docker][Docker]][Docker-url]
 
 ## Getting Started
 ### ⬇️ Pre-install
@@ -81,7 +80,7 @@ Before you begin, ensure you have the following prerequisites installed:
     ``` 
     
 
-Wait a while (to make sure the container has finished loading) then you can access the application in your browser at [`localhost:3000`](http://localhost:3000) to use the client application
+> Wait a while (to make sure the container has finished loading) then you can access the application in your browser at [`localhost:3000`](http://localhost:3000) to use the client application or [`localhost:3001`](http://localhost:3001) to see the server side through endpoints (/matches, /teams, /leaderboard) (e.g: http://localhost:3001/leaderboard/).
 
 
 2. **Use this user to log in as an administrator:**
@@ -93,6 +92,10 @@ Wait a while (to make sure the container has finished loading) then you can acce
 
 
 3. **When you finish, you can remove these containers with:**
+
+   ```bash
+   npm run compose:down
+   ```
 
 ### 🧪 Testing the Aplication
 
@@ -131,4 +134,25 @@ Esse projeto está sob licença. Veja o arquivo [LICENÇA](LICENSE.md) para mais
 [sequelize-url]: https://sequelize.org/
 [Typescript]: https://img.shields.io/badge/typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=white
 [Typescript-url]: https://www.typescriptlang.org/
+
+[MySQL]: https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white
+[MySQL-url]: https://dev.mysql.com/doc/
+[Node.js]: https://img.shields.io/badge/node.js-339933?style=for-the-badge&logo=node.js&logoColor=white
+[Node.js-url]: https://nodejs.org/
+[Typescript]: https://img.shields.io/badge/typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=white
+[Typescript-url]: https://www.typescriptlang.org/
+[Typescript-url]: https://www.typescriptlang.org/
+[Docker]: https://img.shields.io/badge/docker-2496ED?style=for-the-badge&logo=docker&logoColor=white
+[Docker-url]: https://www.docker.com/
+[Sequelize]: https://img.shields.io/badge/Sequelize-52B0E7?style=for-the-badge&logo=Sequelize&logoColor=white
+[Sequelize-url]: https://github.com/dopimentel/back-end-trybe-futebol-clube
+[Express]: https://img.shields.io/badge/Express%20js-000000?style=for-the-badge&logo=express&logoColor=white
+[Express-url]: https://github.com/dopimentel/back-end-trybe-futebol-clube
+[JWT]: https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=JSON%20web%20tokens&logoColor=white
+[JWT-url]: https://github.com/dopimentel/back-end-trybe-futebol-clube
+[Python]: https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54
+[Railway]: https://img.shields.io/badge/Railway-131415?style=for-the-badge&logo=railway&logoColor=white
+[Postman]: https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=Postman&logoColor=white
+[TsNode]: https://img.shields.io/badge/ts--node-3178C6?style=for-the-badge&logo=ts-node&logoColor=white
+[NPM]: https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&logoColor=white
 
