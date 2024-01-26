@@ -53,8 +53,8 @@ This project is dockerized and uses data modeling through Sequelize. The API is 
 ### ⬇️ Pre-install
 Before you begin, ensure you have the following prerequisites installed:
 
-- [Node.js](https://nodejs.org/) (16.14.0 LTS or higher)
-- [Docker](https://www.docker.com/)
+- [Node.js](https://nodejs.org/) (16.14.0 LTS or higher): ```bash nvm use 16.14```
+- [Docker](https://www.docker.com/) (2.5 or higher): ```bash docker-compose --version```
 
 
 ### ⬇️  Installation
