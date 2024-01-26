@@ -15,7 +15,7 @@
   </p>
 </p>
 
-Site URL to the client application: [`http://167.99.175.103:3000`](http://167.99.175.103:3000)
+Site URL to the client application: [`http://167.99.175.103:3000`](http://167.99.175.103:3000) (open in a new tab)
 
 Use the the admin user to login
     
