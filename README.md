@@ -1,10 +1,43 @@
-# [Trybe Project](https://www.betrybe.com/)  - Trybe Futebol Clube
+# [Trybe Futebol Clube ⚽](http://167.99.175.103:3000/leaderboard)
+
+[![Site preview](/app/frontend/public/social-media.png)](http://167.99.175.103:3000)
+
+[![DigitalOcean Referral Badge](https://web-platforms.sfo2.cdn.digitaloceanspaces.com/WWW/Badge%202.svg)](https://www.digitalocean.com/?refcode=88bf4cedf02b&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge)
+
 
 ## 💻 What is it about?
 
-TFC is an website about football matches and ranking. If you are logged in, it is possible to edit and register new games, as long as you are an admin user (authentication and authorization).
+<p align="center">
+    TFC is an website about football matches and ranking. If you are logged in, it is possible to edit and register new games, as long as you are an admin user (authentication and authorization).
+   <br>
+   It's running.
+   <br>
+  </p>
+</p>
 
-#### Table of Contents
+Site URL to the client application: [`http://167.99.175.103:3000`](http://167.99.175.103:3000)
+
+Use the the admin user to login
+    
+    email: admin@admin.com
+    password: secret_admin
+
+You also can see the server side running: [`http://167.99.175.103:3001`](http://167.99.175.103:3001)
+
+Endpoints GET/: /teams /teams/:id /matches matches:/id /leaderboard /leaderboard/home /leaderboard/away (e.g. [`http://167.99.175.103:3001/matches`](http://167.99.175.103:3001/matches))
+
+<br>
+
+<p align="center">
+    <a href="https://dopimentel.github.io/home">About Me</a>
+</p>
+<br>
+
+### Built With
+
+> [![Node.js][Node.js]][Node.js-url][![Docker][Docker]][Docker-url]![Express][Express][![sequelize][sequelize]][sequelize-url][![MySQL][MySQL]][MySQL-url][![Typescript][Typescript]][Typescript-url]![JWT][JWT]
+
+### Table of Contents
 
 - [Dockerization](#dockerization)
 - [Data Modeling - ORM](#data-modeling)
@@ -13,41 +46,37 @@ TFC is an website about football matches and ranking. If you are logged in, it i
 - [SOLID Principles](#solid-principles)
 - [Layered Architecture](#layered-architecture)
 
-#### Dockerization
-
-This project utilizes Docker for containerization, including the Dockerization of apps, network, volume, and compose.
-
-#### Data Modeling
-
-Data modeling is achieved using MySQL in conjunction with Sequelize. This involves the creation and association of tables using Sequelize models.
-
-#### API RESTful Development
-
-The project involves the construction of a RESTful API with endpoints to consume the models created during data modeling.
-
-#### CRUD with TypeScript
-
-A CRUD (Create, Read, Update, Delete) functionality is implemented using TypeScript, with the support of an Object-Relational Mapping (ORM) for efficient data manipulation.
-
-#### SOLID Principles
-
-The project follows the SOLID principles (Single Responsibility, Open/Closed, Liskov Substitution, Interface Segregation, Dependency Inversion) to promote maintainability, scalability, and readability in the codebase.
-
-#### Layered Architecture
-
-The project adopts a layered architecture, organizing code into distinct layers (e.g., presentation, business logic, data access) to enhance modularity, flexibility, and maintainability (Controller, Service and Model).
-
-
-This project is dockerized and uses data modeling through Sequelize. The API is consumed by a pre-provided front-end.
+>#### Dockerization
+>
+>This project utilizes Docker for containerization, including the Dockerization of apps, network, volume, and compose.
+>
+>#### Data Modeling
+>
+>Data modeling is achieved using MySQL in conjunction with Sequelize. This involves the creation and association of tables using Sequelize models.
+>
+>#### API RESTful Development
+>
+>The project involves the construction of a RESTful API with endpoints to consume the models created during data modeling.
+>
+>#### CRUD with TypeScript
+>
+>A CRUD (Create, Read, Update, Delete) functionality is implemented using TypeScript, with the support of an Object-Relational Mapping (ORM) for efficient data manipulation.
+>
+>#### SOLID Principles
+>
+>The project follows the SOLID principles (Single Responsibility, Open/Closed, Liskov Substitution, Interface Segregation, Dependency Inversion) to promote maintainability, >scalability, and readability in the codebase.
+>
+>#### Layered Architecture
+>
+>The project adopts a layered architecture, organizing code into distinct layers (e.g., presentation, business logic, data access) to enhance modularity, flexibility, and >maintainability (Controller, Service and Model).
+>
+>
+>This project is dockerized and uses data modeling through Sequelize. The API is consumed by a pre-provided front-end.
 
 ## ⚠ Warning
 
 - The frontend of this project was developed and provide by Trybe(https://www.betrybe.com). All rights reserved.
 
-
-## 🚀 Built With
-
-> [![Node.js][Node.js]][Node.js-url]![Express][Express][![sequelize][sequelize]][sequelize-url][![MySQL][MySQL]][MySQL-url][![Typescript][Typescript]][Typescript-url]![JWT][JWT][![Docker][Docker]][Docker-url]
 
 ## Getting Started
 ### ⬇️ Pre-install
@@ -134,6 +163,7 @@ Esse projeto está sob licença. Veja o arquivo [LICENÇA](LICENSE.md) para mais
 [sequelize-url]: https://sequelize.org/
 [Typescript]: https://img.shields.io/badge/typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=white
 [Typescript-url]: https://www.typescriptlang.org/
+[DigitalOcean]: https://img.shields.io/badge/Digital_Ocean-0080FF?style=for-the-badge&logo=DigitalOcean&logoColor=white
 
 [MySQL]: https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white
 [MySQL-url]: https://dev.mysql.com/doc/
