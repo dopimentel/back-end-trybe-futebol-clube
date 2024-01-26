@@ -1,6 +1,6 @@
 # [Trybe Futebol Clube ⚽](http://167.99.175.103:3000/leaderboard)
 
-[![Site preview](/app/frontend/public/social-media.png)](http://167.99.175.103:3000)
+[![Site preview](/app/frontend/public/social-media.png)](http://167.99.175.103:3000/leaderboard)
 
 [![DigitalOcean Referral Badge](https://web-platforms.sfo2.cdn.digitaloceanspaces.com/WWW/Badge%202.svg)](https://www.digitalocean.com/?refcode=88bf4cedf02b&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge)
 
