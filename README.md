@@ -10,7 +10,8 @@
 <p align="center">
     TFC is an website about football matches and ranking. If you are logged in, it is possible to edit and register new games, as long as you are an admin user (authentication and authorization).
    <br>
-   It's running.
+   It's running. Demo:
+    <a href="http://167.99.175.103:3000/">http://167.99.175.103:3000/</a>
    <br>
   </p>
 </p>
