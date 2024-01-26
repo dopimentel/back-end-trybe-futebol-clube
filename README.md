@@ -23,14 +23,14 @@
 
 Site URL to the client application: [`http://167.99.175.103:3000`](http://167.99.175.103:3000/leaderboard)
 
-Use the the admin user to login
+Use the admin user to login
     
     email: admin@admin.com
     password: secret_admin
 
 You also can see the server side running: [`http://167.99.175.103:3001`](http://167.99.175.103:3001)
 
-Endpoints GET/: /teams /teams/:id /matches matches:/id /leaderboard /leaderboard/home /leaderboard/away
+Endpoints GET: /teams /teams/:id /matches matches/:id /leaderboard /leaderboard/home /leaderboard/away
 
 (e.g. [`http://167.99.175.103:3001/matches`](http://167.99.175.103:3001/matches))
 
