@@ -10,13 +10,16 @@
 <p align="center">
     TFC is an website about football matches and ranking. If you are logged in, it is possible to edit and register new games, as long as you are an admin user (authentication and authorization).
    <br>
-   It's running. Demo:
-    <a href="http://167.99.175.103:3000/">http://167.99.175.103:3000/</a>
+   It's running. Link demo:
+    <a href="http://167.99.175.103:3000/leaderboard">http://167.99.175.103:3000/</a>
    <br>
   </p>
 </p>
 
-Site URL to the client application: [`http://167.99.175.103:3000`](http://167.99.175.103:3000) (open in a new tab)
+<br>
+
+
+Site URL to the client application: [`http://167.99.175.103:3000`](http://167.99.175.103:3000/leaderboard)
 
 Use the the admin user to login
     
