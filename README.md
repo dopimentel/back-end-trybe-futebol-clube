@@ -4,6 +4,8 @@
 
 [![DigitalOcean Referral Badge](https://web-platforms.sfo2.cdn.digitaloceanspaces.com/WWW/Badge%202.svg)](https://www.digitalocean.com/?refcode=88bf4cedf02b&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge)
 
+>(earn 200 dollars)
+
 
 ## 💻 What is it about?
 
@@ -28,7 +30,9 @@ Use the the admin user to login
 
 You also can see the server side running: [`http://167.99.175.103:3001`](http://167.99.175.103:3001)
 
-Endpoints GET/: /teams /teams/:id /matches matches:/id /leaderboard /leaderboard/home /leaderboard/away (e.g. [`http://167.99.175.103:3001/matches`](http://167.99.175.103:3001/matches))
+Endpoints GET/: /teams /teams/:id /matches matches:/id /leaderboard /leaderboard/home /leaderboard/away
+
+(e.g. [`http://167.99.175.103:3001/matches`](http://167.99.175.103:3001/matches))
 
 <br>
 
