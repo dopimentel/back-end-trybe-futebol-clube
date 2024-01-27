@@ -10,7 +10,7 @@
 ## 💻 What is it about?
 
 <p align="center">
-    TFC is an website about football matches and ranking. If you are logged in, it is possible to edit and register new games, as long as you are an admin user (authentication and authorization).
+    TFC is an website about football matches and ranking. If you are logged in, it is possible to edit and register new matches, as long as you are an admin user (authentication and authorization).
    <br>
    It is running in San Francisco on a DigitalOcean Droplet. Three services (backend, frontend, and MySQL database) are running in Docker containers. It was set up using Bash. Link demo:
     <a href="http://167.99.175.103:3000/leaderboard">http://167.99.175.103:3000/</a>
