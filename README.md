@@ -13,7 +13,7 @@
     TFC is an website about football matches and ranking. If you are logged in, it is possible to edit and register new matches, as long as you are an admin user (authentication and authorization).
    <br>
    It is running on a DigitalOcean Droplet. Three services (backend, frontend, and MySQL database) are running in Docker containers. It was set up using Bash. Link demo:
-    <a href="http://167.99.175.103:3000/leaderboard">http://167.99.175.103:3000/</a>
+    <a href="http://projects.pimentel.live/tfc">http://projects.pimentel.live/tfc/</a>
    <br>
   </p>
 </p>
@@ -21,18 +21,19 @@
 <br>
 
 
-URL to the client application: [`http://167.99.175.103:3000`](http://167.99.175.103:3000/leaderboard)
+URL to the client application: [`http://projects.pimentel.live/tfc`](http://projects.pimentel.live/tfc)
 
 Use the admin user to login
     
     email: admin@admin.com
     password: secret_admin
 
-You also can see the server side running: [`http://167.99.175.103:3001`](http://167.99.175.103:3001)
+Endpoints GET: /teams /teams/:id /matches matches/:id /leaderboard /leaderboard/home /leaderboard/away
+You also can see the server side running: [`http://projects.pimentel.live:3001`](http://projects.pimentel.live:3001)
 
 Endpoints GET: /teams /teams/:id /matches matches/:id /leaderboard /leaderboard/home /leaderboard/away
 
-(e.g. [`http://167.99.175.103:3001/matches`](http://167.99.175.103:3001/matches))
+(e.g. [`http://projects.pimentel.live:3001/matches`](http://projects.pimentel.live:3001/matches))
 
 <br>
 
