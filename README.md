@@ -109,10 +109,6 @@ Before you begin, ensure you have the following prerequisites installed:
    ```bash
    cd back-end-trybe-futebol-clube
 
-3. **Install the dependencies:**
-   ```bash
-   npm install
-
 ### ⚡ Running the Aplication
 
 1. **You can run the entire application with only one command! Open an integrated terminal on root directory and run this command:**
