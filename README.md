@@ -38,7 +38,7 @@ Endpoints GET: /teams /teams/:id /matches matches/:id /leaderboard /leaderboard/
 <br>
 
 <p align="center">
-    <a href="https://dopimentel.github.io/home">About Me</a>
+    <a href="https://dopimentel.github.io">About Me</a>
 </p>
 <br>
 
